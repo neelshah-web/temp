@@ -67,7 +67,7 @@ export function Services() {
         >
           <option value="all">All Cars</option>
           <option value="suv">SUV Car</option>
-          <option value="swift">Swift Dzire Car</option>
+          <option value="swift">Sedan</option>
           <option value="bus">Bus</option>
         </select>
       </div>

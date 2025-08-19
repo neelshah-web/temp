@@ -7,6 +7,9 @@ import { useAuth } from '../contexts/AuthContext';
 import { PaymentModal } from './PaymentModal';
 import toast from 'react-hot-toast';
 
+// Firebase imports
+import { db, collection, addDoc } from '../firebase'; // Ensure this import matches your firebase.js file
+
 interface BookingFormProps {
   onClose: () => void;
   selectedCarId?: string;
@@ -25,8 +28,7 @@ export function BookingForm({ onClose, selectedCarId }: BookingFormProps) {
     carId: selectedCarId || '',
   });
 
-  const selectedCar = cars.find(car => car.id === formData.carId);
-  const amount = selectedCar ? selectedCar.price : 0;
+  const selectedCar = cars.find(car => car.id === Number(formData.carId));
 
   // Helper function to convert time to 12-hour format with AM/PM
   const formatTime12hr = (time: string) => {
@@ -35,6 +37,14 @@ export function BookingForm({ onClose, selectedCarId }: BookingFormProps) {
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const hours12 = hours % 12 || 12; // Convert 0 hours to 12
     return `${hours12}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+  };
+
+  // Calculate amount based on car price (you can adjust the calculation)
+  const calculateAmount = () => {
+    if (selectedCar) {
+      const rentalDuration = (new Date(formData.returnDate).getTime() - new Date(formData.pickupDate).getTime()) / (1000 * 3600 * 24);
+    }
+    return 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,14 +59,28 @@ export function BookingForm({ onClose, selectedCarId }: BookingFormProps) {
       return;
     }
 
-    setShowPayment(true); // Show the PaymentModal
+    // Save the booking data to Firestore
+    try {
+      await addDoc(collection(db, 'bookings'), {
+        userId: currentUser.uid,
+        ...formData,
+        carName: selectedCar?.name,
+        carModel: selectedCar?.model,
+        bookingDate: new Date(),
+      });
+      toast.success('Booking saved successfully!');
+      setShowPayment(true); // Show the PaymentModal
+    } catch (error) {
+      toast.error('Error saving booking data!');
+      console.error(error);
+    }
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Book Your Car</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -96,7 +120,7 @@ export function BookingForm({ onClose, selectedCarId }: BookingFormProps) {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <Clock className="inline-block w-4 h-4 mr-2" />
@@ -152,7 +176,7 @@ export function BookingForm({ onClose, selectedCarId }: BookingFormProps) {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 <Clock className="inline-block w-4 h-4 mr-2" />
@@ -211,15 +235,15 @@ export function BookingForm({ onClose, selectedCarId }: BookingFormProps) {
         </form>
       </div>
 
-      {showPayment && (
-          <PaymentModal
-            isOpen={showPayment}
-            onClose={() => setShowPayment(false)}
-            amount={amount}
-            carId={formData.carId}
-            bookingData={formData}
-          />
-        )}
+      {showPayment && selectedCar && (
+        <PaymentModal
+          isOpen={showPayment}
+          onClose={() => setShowPayment(false)}
+          amount={calculateAmount()} // Pass the calculated amount
+          carId={formData.carId}
+          bookingData={formData}
+        />
+      )}
     </div>
   );
 }

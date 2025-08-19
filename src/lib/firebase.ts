@@ -1,8 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
+import { getFirestore, enableIndexedDbPersistence, collection, addDoc, getDocs } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
+// Firebase config
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -13,7 +14,10 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
@@ -27,4 +31,6 @@ enableIndexedDbPersistence(db).catch((err) => {
   }
 });
 
+// Export Firestore methods
+export { collection, addDoc, getDocs };
 export default app;

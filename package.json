@@ -1,5 +1,5 @@
 {
-  "name": "siddhi-cars-rental",
+  "name": "relax-cars-rental",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -18,7 +18,8 @@
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.22.3",
-    "recharts": "^2.12.2"
+    "recharts": "^2.12.2",
+    "relax-cars-rental": "file:"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

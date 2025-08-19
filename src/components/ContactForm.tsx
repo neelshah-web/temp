@@ -23,17 +23,21 @@ export function ContactForm() {
           <div className="space-y-4">
             <div className="flex items-center">
               <Phone className="h-6 w-6 text-blue-600 dark:text-blue-400 mr-3" />
-              <span className="text-gray-700 dark:text-gray-300">+91 7887809708</span>
+              <span className="text-gray-700 dark:text-gray-300">+91 8208914134</span>
             </div>
             <div className="flex items-center">
               <Mail className="h-6 w-6 text-blue-600 dark:text-blue-400 mr-3" />
-              <span className="text-gray-700 dark:text-gray-300">contact@siddhicars.com</span>
+              <span className="text-gray-700 dark:text-gray-300">Relaxcarrentalpune@gmail.com</span>
             </div>
-            <div className="flex items-center">
-              <MapPin className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
-              <span className="text-gray-700 dark:text-gray-300">Bhatewara Nagar, Hinjawadi Village, Wakad, Pune, Pimpri Chinchwad, Maharashtra - 411057
-</span>
-            </div>
+            <div className="flex items-start space-x-4">
+  <MapPin className="h-6 w-6 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+  <div className="space-y-1 text-gray-700 dark:text-gray-300">
+    <p className="text-sm sm:text-base">SHOP NO 4, PARTHAVI EMERALD, BHUMKAR BRIDGE,NARHE, PUNE-411041</p>
+  </div>
+</div>
+
+
+
           </div>
         </div>
 
@@ -88,3 +92,5 @@ export function ContactForm() {
     </div>
   );
 }
+
+export default ContactForm;

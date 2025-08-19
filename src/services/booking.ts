@@ -3,7 +3,7 @@ import { db } from '../lib/firebase';
 
 interface BookingData {
   userId: string;
-  carId: string;
+  carId: number;
   pickupDate: string;
   pickupTime: string;
   returnDate: string;

@@ -9,6 +9,7 @@ import { About } from './pages/About';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { ThemeToggle } from './components/ThemeToggle';
+import { PastBookingsPage } from './components/PastBookingsPage';
 
 export function App() {
   return (
@@ -18,11 +19,12 @@ export function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/testimonials" element={<Testimonials />} />
-            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/past-bookings" element={<PastBookingsPage />} />
           </Routes>
         </main>
         <div className="fixed bottom-4 right-4 z-50">

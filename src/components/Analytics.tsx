@@ -1,77 +1,79 @@
-import React from 'react';
-import { Users, Star, Calendar } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
-const bookingData = [
-  { month: 'Jan', bookings: 420, rating: 4.7 },
-  { month: 'Feb', bookings: 480, rating: 4.8 },
-  { month: 'Mar', bookings: 520, rating: 4.9 },
-  { month: 'Apr', bookings: 550, rating: 4.8 },
-  { month: 'May', bookings: 600, rating: 4.9 },
-  { month: 'Jun', bookings: 650, rating: 4.8 }
-];
+const COLORS = ['#3B82F6', '#10B981', '#F59E0B']; // Colors for the donut chart
 
 export function Analytics() {
-  const stats = [
-    {
-      icon: Users,
-      label: 'Happy Customers',
-      value: '15,000+',
-      color: 'bg-blue-500',
-    },
-    {
-      icon: Star,
-      label: 'Customer Rating',
-      value: '4.8/5',
-      color: 'bg-yellow-500',
-    },
-    {
-      icon: Calendar,
-      label: 'Successful Bookings',
-      value: '5,000+',
-      color: 'bg-green-500',
-    },
-  ];
+  // Live data state
+  const [data, setData] = useState([
+    { name: 'Website Visits', value: 15000 },
+    { name: 'Bookings', value: 5000 },
+    { name: 'Ratings (x1000)', value: 4800 }
+  ]);
+
+  // Simulating live updates (replace with real-time API integration if available)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setData((prevData) =>
+        prevData.map((entry) => ({
+          ...entry,
+          value: Math.floor(entry.value * (1 + Math.random() * 0.01)) // Randomly increase values
+        }))
+      );
+    }, 5000); // Updates every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const totalUsers = data.reduce((sum, entry) => sum + entry.value, 0);
 
   return (
-    <div className="space-y-12">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Our Impact</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="relative overflow-hidden rounded-lg p-6 transform hover:scale-105 transition-transform duration-300"
-            >
-              <div className={`absolute inset-0 opacity-10 ${stat.color}`} />
-              <div className="relative z-10">
-                <stat.icon className={`h-12 w-12 mb-4 ${stat.color.replace('bg-', 'text-')}`} />
-                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                  {stat.value}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">{stat.label}</p>
-              </div>
-            </div>
+    <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 my-12">
+      {/* Left Section: Info */}
+      <div className="w-full md:w-1/2 p-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Live Analytics</h2>
+        <ul className="space-y-4">
+          {data.map((entry, index) => (
+            <li key={entry.name} className="flex items-center">
+              <span
+                className="inline-block w-4 h-4 mr-3 rounded-full"
+                style={{ backgroundColor: COLORS[index] }}
+              ></span>
+              <span className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                {entry.name}:
+              </span>
+              <span className="ml-2 text-xl font-semibold text-gray-900 dark:text-white">
+                {entry.value.toLocaleString()}
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
+        <p className="mt-6 text-lg text-gray-600 dark:text-gray-400">
+          Total Users: <span className="font-bold text-gray-900 dark:text-white">{totalUsers.toLocaleString()}</span>
+        </p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Live Booking Analysis</h2>
-        <div className="h-[400px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={bookingData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis yAxisId="left" />
-              <YAxis yAxisId="right" orientation="right" />
-              <Tooltip />
-              <Legend />
-              <Bar yAxisId="left" dataKey="bookings" name="Monthly Bookings" fill="#3B82F6" />
-              <Bar yAxisId="right" dataKey="rating" name="Average Rating" fill="#F59E0B" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+      {/* Right Section: Donut Chart */}
+      <div className="w-full md:w-1/2 h-[400px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius="80%"
+              innerRadius="50%"
+              paddingAngle={5}
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+              ))}
+            </Pie>
+            <Tooltip formatter={(value) => value.toLocaleString()} />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

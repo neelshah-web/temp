@@ -43,7 +43,7 @@ export function CarCard({ car }: CarCardProps) {
             </p>
             <div className="flex space-x-2">
               <a
-                href="tel:+917887809708"
+                href="tel:+919223621234"
                 className="flex-1 inline-flex items-center justify-center px-3 py-2 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 rounded-md hover:bg-blue-50 dark:hover:bg-gray-700"
               >
                 <Phone className="h-4 w-4 mr-2" />

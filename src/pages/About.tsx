@@ -3,20 +3,17 @@ import React from 'react';
 export function About() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">About Siddhi Cars</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">About Relax Car Rental</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Our Story</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Founded in 2020, Siddhi Cars has grown to become one of the most trusted names in the car rental industry.
-            Our commitment to providing exceptional service and maintaining a fleet of premium vehicles has earned us
-            the loyalty of countless satisfied customers.
+          <p className="text-gray-600 dark:text-gray-300 mb-6 text-justify">
+            Relax Car Rental provides all kinds of cars on rent with driver.
           </p>
-          <p className="text-gray-600 dark:text-gray-300">
-            We believe in making the car rental experience as seamless and enjoyable as possible. Whether you're
-            traveling for business or pleasure, our team is dedicated to ensuring you have the perfect vehicle
-            for your needs.
+          <p className="text-gray-600 dark:text-gray-300 text-justify">
+            We’re committed to providing a smooth and enjoyable car rental experience. Whether you're 
+            on a business trip or a vacation, our team is here to help you 
+            find the ideal vehicle to suit your journey.
           </p>
         </div>
         

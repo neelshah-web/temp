@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Lock, Mail, User } from 'lucide-react';
+import { Lock, Mail } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export function Signup() {
@@ -25,8 +25,8 @@ export function Signup() {
       await signup(email, password);
       toast.success('Account created successfully!');
       navigate('/');
-    } catch (error) {
-      toast.error('Failed to create an account.');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to create an account.');
       console.error('Signup error:', error);
     } finally {
       setLoading(false);

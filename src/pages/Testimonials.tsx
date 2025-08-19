@@ -1,8 +1,10 @@
+// src/pages/Testimonials.tsx
+
 import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
 import { TestimonialCard } from '../components/TestimonialCard';
 import { useAuth } from '../contexts/AuthContext';
-import { db, collection, addDoc, getDocs } from '../firebase'; // Firebase import
+import { db, collection, addDoc, getDocs } from '../lib/firebase'; // Firebase import
 import toast from 'react-hot-toast';
 
 export function Testimonials() {

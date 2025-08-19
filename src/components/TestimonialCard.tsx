@@ -12,8 +12,8 @@ interface TestimonialCardProps {
 }
 
 export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
-  // Get the first letter of the name for the avatar
-  const avatarLetter = testimonial.name.charAt(0).toUpperCase();
+  // Check if name exists, else fallback to a default value
+  const avatarLetter = testimonial.name ? testimonial.name.charAt(0).toUpperCase() : 'N/A';
 
   // Generate star rating (★ for filled, ☆ for empty)
   const renderStars = (rating: number) => {
@@ -29,18 +29,21 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial })
       <div className="flex items-center space-x-4">
         {/* Avatar - First letter of name */}
         <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center text-2xl font-semibold">
-          {avatarLetter}
+          {testimonial.avatar ? (
+            <img src={testimonial.avatar} alt="Avatar" className="h-full w-full object-cover rounded-full" />
+          ) : (
+            avatarLetter
+          )}
         </div>
         <div>
-          <h3 className="text-lg font-semibold">{testimonial.name}</h3>
-          <div className="text-sm text-gray-500">{testimonial.date}</div>
+          <p className="text-lg font-semibold">{testimonial.name || 'Anonymous'}</p>
+          <p className="text-sm text-gray-500">{testimonial.date}</p>
         </div>
       </div>
-      <div className="mt-2">
-        <p>{testimonial.comment}</p>
-        <div className="mt-2">
-          <span className="text-yellow-500 text-xl">{renderStars(testimonial.rating)}</span>
-        </div>
+
+      <div className="mt-4">
+        <p className="text-gray-800">{renderStars(testimonial.rating)}</p>
+        <p className="text-gray-700 mt-2">{testimonial.comment}</p>
       </div>
     </div>
   );

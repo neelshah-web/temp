@@ -40,7 +40,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function signup(email: string, password: string) {
-    await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        throw new Error('The email address is already in use by another account.');
+      }
+      if (error.code === 'auth/invalid-email') {
+        throw new Error('The email address is not valid.');
+      }
+      if (error.code === 'auth/weak-password') {
+        throw new Error('Password should be at least 6 characters.');
+      }
+      throw error; // Re-throw other errors
+    }
   }
 
   async function login(email: string, password: string) {
