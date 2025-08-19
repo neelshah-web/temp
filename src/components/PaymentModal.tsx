@@ -37,7 +37,7 @@ export function PaymentModal({
 
     // Check if the user is on a mobile device
     const isMobileDevice = navigator.userAgent.match(/Mobi/);
-    
+
     if (isMobileDevice) {
       try {
         // Create booking record with payment details
